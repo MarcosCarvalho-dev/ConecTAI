@@ -380,7 +380,7 @@ const SocialProofFeed = ({ notifications, active }) => {
     if (!current || !active) return null;
 
     return (
-        <div className={`fixed bottom-6 left-6 z-[60] pointer-events-none ${animClass}`}>
+        <div className={`fixed bottom-24 sm:bottom-6 left-6 z-[60] pointer-events-none ${animClass}`}>
             <div className="flex items-center gap-3 p-4 bg-white/97 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.15)] border border-slate-100 rounded-2xl w-80">
                 <div className="w-10 h-10 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-lg flex-shrink-0">
                     {current.icon}
@@ -616,17 +616,20 @@ const SideNavbar = ({ activeView, onNavigate, isLoggedIn, isOpen, onToggle, cart
 
     return (
         <aside
-            className={`fixed left-0 top-0 h-full z-40 flex flex-col bg-white/95 backdrop-blur-md border-r border-slate-200 shadow-xl transition-all duration-300 ease-in-out ${expanded ? 'w-56' : 'w-16'}`}
+            className={`fixed left-0 z-40 flex bg-white/95 backdrop-blur-md shadow-xl transition-all duration-300 ease-in-out 
+            bottom-0 w-full h-16 flex-row border-t border-slate-200 justify-around items-center px-2
+            sm:top-0 sm:h-full sm:flex-col sm:border-r sm:border-t-0 sm:justify-start sm:px-0
+            ${expanded ? 'sm:w-56' : 'sm:w-16'}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             {/* Espaço reservado para alinhar com o Header (h-20) */}
-            <div className="h-20 flex-shrink-0"></div>
-            <nav className="flex-1 py-4 overflow-hidden">
+            <div className="hidden sm:block h-20 flex-shrink-0"></div>
+            <nav className="flex-1 flex sm:flex-col overflow-x-auto sm:overflow-hidden sm:py-4 items-center sm:items-stretch h-full sm:h-auto gap-2 sm:gap-0">
                 {navItems.map(({ view, icon: Icon, label, badge }) => (
                     <button key={view} onClick={() => onNavigate(view)}
-                        className={`w-full flex items-center px-3 py-3 mb-1 rounded-xl mx-1 transition-all group relative ${activeView === view ? 'bg-blue-50 text-blue-700' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'}`}
-                        style={{ width: 'calc(100% - 8px)' }}>
+                        className={`flex items-center sm:w-[calc(100%-8px)] px-3 py-2 sm:py-3 sm:mb-1 rounded-xl mx-1 transition-all group relative ${activeView === view ? 'bg-blue-50 text-blue-700' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'}`}
+                    >
                         <div className="relative flex-shrink-0">
                             <Icon className="w-5 h-5" />
                             {badge > 0 && <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">{badge}</span>}
@@ -874,7 +877,14 @@ const Login = ({ onNavigate, onLogin, onLoginAuth }) => {
                         <GoogleLogin
                             onSuccess={credentialResponse => {
                                 console.log('Google Auth Success:', credentialResponse);
-                                onLogin('Usuário Google');
+                                try {
+                                    const payload = credentialResponse.credential.split('.')[1];
+                                    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+                                    const decoded = JSON.parse(atob(base64));
+                                    onLogin(decoded.name || 'Usuário Google');
+                                } catch (e) {
+                                    onLogin('Usuário Google');
+                                }
                             }}
                             onError={() => {
                                 console.log('Login Failed');
@@ -1083,7 +1093,14 @@ const Register = ({ onNavigate, onLogin, onRegisterAuth }) => {
                         <GoogleLogin
                             onSuccess={credentialResponse => {
                                 console.log('Google Auth Success:', credentialResponse);
-                                onLogin('Usuário Google', true);
+                                try {
+                                    const payload = credentialResponse.credential.split('.')[1];
+                                    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+                                    const decoded = JSON.parse(atob(base64));
+                                    onLogin(decoded.name || 'Usuário Google', true);
+                                } catch (e) {
+                                    onLogin('Usuário Google', true);
+                                }
                             }}
                             onError={() => {
                                 console.log('Login Failed');
@@ -2638,7 +2655,7 @@ const ContactView = () => {
                         </div>
                         <div className="ml-4">
                             <p className="text-sm font-bold text-slate-500 uppercase tracking-wider">E-mail</p>
-                            <p className="text-lg font-black text-slate-800 break-all">conectaai@gmail.com</p>
+                            <p className="text-lg font-black text-slate-800 break-all">conectaai001@gmail.com</p>
                         </div>
                     </GlassPanel>
 
@@ -3466,7 +3483,7 @@ function AppContent() {
             </nav>
 
             {/* ÁREA DE CONTEÚDO PRINCIPAL */}
-            <main className="py-8 flex-1 pl-16">
+            <main className="pt-8 pb-24 px-4 sm:px-0 sm:py-8 flex-1 sm:pl-16">
                 {activeView === 'home' && <Home onNavigate={setActiveView} isLoggedIn={isLoggedIn} />}
                 {activeView === 'marketplace' && <Marketplace items={marketplaceItems} isLoggedIn={isLoggedIn} onNavigate={setActiveView} onLogin={handleLogin} addToCart={handleAddToCart} mode={marketplaceMode} />}
 
@@ -3596,7 +3613,7 @@ const AvatarSupporte = ({ onNavigate }) => {
     }, []);
 
     return (
-        <div className="fixed bottom-24 sm:bottom-6 right-6 z-50 flex items-center group cursor-pointer" onClick={() => onNavigate('contact')}>
+        <div className="fixed bottom-20 sm:bottom-6 right-6 z-50 flex items-center group cursor-pointer" onClick={() => onNavigate('contact')}>
             <div className="bg-blue-700 text-white font-bold py-2.5 px-5 rounded-l-full shadow-lg transform translate-x-10 opacity-0 group-hover:translate-x-4 group-hover:opacity-100 transition-all duration-300 z-0 border border-blue-600">
                 Fale Conosco
             </div>
