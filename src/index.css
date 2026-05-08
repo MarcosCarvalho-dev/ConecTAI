@@ -172,3 +172,88 @@
   transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
 }
 
+/* OVERRIDE GLOBAL DARK MODE - INNOVATIVE THEME */
+.dark body {
+  background-color: #060b19 !important; /* Deep space blue */
+  color: #f8fafc !important;
+}
+
+.dark .bg-white {
+  background-color: #0d1527 !important; /* Premium dark card */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark .text-slate-800,
+.dark .text-slate-900 {
+  color: #f1f5f9 !important;
+}
+
+.dark .text-slate-700,
+.dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+.dark .bg-slate-50,
+.dark .bg-slate-100 {
+  background-color: #0a1120 !important;
+}
+
+.dark .border-slate-200,
+.dark .border-slate-100 {
+  border-color: rgba(59, 130, 246, 0.15) !important; /* Subtle blue tint border */
+}
+
+/* Accent Backgrounds for dark mode */
+.dark .bg-blue-50 {
+  background-color: rgba(37, 99, 235, 0.1) !important;
+  border-color: rgba(37, 99, 235, 0.3) !important;
+}
+.dark .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+.dark .bg-yellow-50,
+.dark .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.1) !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+/* Glowing text colors for dark mode */
+.dark .text-blue-700, .dark .text-blue-600 {
+  color: #60a5fa !important;
+  text-shadow: 0 0 10px rgba(96, 165, 250, 0.3) !important;
+}
+.dark .text-emerald-700, .dark .text-emerald-600 {
+  color: #34d399 !important;
+  text-shadow: 0 0 10px rgba(52, 211, 153, 0.3) !important;
+}
+.dark .text-yellow-700, .dark .text-yellow-600 {
+  color: #fbbf24 !important;
+}
+
+/* Gradients for buttons in dark mode */
+.dark .bg-blue-700 {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4) !important;
+  border: none !important;
+}
+.dark .bg-emerald-600 {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
+  border: none !important;
+}
+
+/* Navbar specific override */
+.dark nav.bg-white\\/80, .dark aside.bg-white\\/95 {
+  background-color: rgba(6, 11, 25, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark .glass-card, .dark .bg-white\\/90 {
+  background-color: rgba(13, 21, 39, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}

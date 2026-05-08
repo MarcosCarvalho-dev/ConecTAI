@@ -3,7 +3,9 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { qrcode } from 'vite-plugin-qrcode';
 
-// Plugin do Vite para interceptar chamadas e disparar e-mails via Nodemailer
+// Plugin do Vite para emular a Serverless Function da Vercel localmente
+import nodemailer from 'nodemailer';
+
 const emailPlugin = () => ({
   name: 'email-plugin',
   configureServer(server) {
@@ -18,34 +20,47 @@ const emailPlugin = () => ({
             const data = JSON.parse(body);
             const { name, email } = data;
 
-            // Automação: Monta a URL do Gmail com os dados preenchidos
-            const subject = encodeURIComponent("Boas vindas novo usuario da plataforma ConecTAÍ");
-            const mailBody = encodeURIComponent(
-                `Olá ${name.trim()}!\n\n` +
-                `Bem-vindo(a) ao ConecTAÍ! Seu cadastro foi realizado com sucesso.\n` +
-                `Agora você já pode acessar nossa plataforma para comprar ou vender seus produtos e serviços.\n\n` +
-                `Estamos muito felizes em ter você conosco!\n\n` +
-                `Atenciosamente,\n` +
-                `Equipe ConecTAÍ`
-            );
-            
-            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email.trim()}&su=${subject}&body=${mailBody}`;
+            if (!email) {
+              res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json');
+              return res.end(JSON.stringify({ success: false, message: 'E-mail é obrigatório' }));
+            }
 
-            // Abre o Chrome minimizado na barra de tarefas com o e-mail já preenchido
-            const { exec } = require('child_process');
-            exec(`Start-Process -WindowStyle Minimized -FilePath "chrome" -ArgumentList "--new-window \\"${gmailUrl}\\""`, { shell: 'powershell.exe' }, (error) => {
-                if (error) {
-                    console.error("⚠️ Erro ao abrir o Chrome minimizado:", error.message);
-                } else {
-                    console.log(`\n✅ Chrome aberto minimizado com o e-mail para ${email.trim()} pronto para envio.`);
-                }
+            console.log(`[Vite Local] Iniciando envio de e-mail via SMTP para: ${email}`);
+
+            const transporter = nodemailer.createTransport({
+              service: 'gmail',
+              auth: {
+                user: 'conectaai001@gmail.com',
+                pass: 'bluy bvuc atuf vxyi' // Senha de app
+              }
             });
+
+            const mailOptions = {
+              from: '"ConecTAÍ" <conectaai001@gmail.com>',
+              to: email,
+              subject: 'Bem-vindo ao ConecTAÍ! Confirmação de Cadastro',
+              html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+                  <h1 style="color: #1d4ed8;">Seja muito bem-vindo ao ConecTAÍ!</h1>
+                  <p>Olá ${name || ''},</p>
+                  <p>Seu cadastro no <strong>Marketplace do Microempreendedor</strong> foi realizado com sucesso.</p>
+                  <p>Agora você tem acesso a milhares de produtos, serviços e consultorias exclusivas para alavancar seu negócio.</p>
+                  <br/>
+                  <p>Abraços,</p>
+                  <p><strong>Equipe ConecTAÍ</strong></p>
+                </div>
+              `
+            };
+
+            await transporter.sendMail(mailOptions);
+            console.log(`✅ [Vite Local] E-mail enviado com sucesso para ${email}!`);
 
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ success: true, message: 'Chrome minimizado acionado' }));
+            res.end(JSON.stringify({ success: true, message: 'E-mail enviado via SMTP' }));
           } catch (error) {
-            console.error('Email plugin error:', error);
+            console.error('❌ [Vite Local] Erro ao enviar e-mail:', error);
             res.statusCode = 500;
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({ success: false, error: error.message }));
