@@ -1,3 +1,4 @@
+// ConecTAÍ - Marketplace e Conexão
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
     Menu, X, Search, Star, ShieldCheck,
