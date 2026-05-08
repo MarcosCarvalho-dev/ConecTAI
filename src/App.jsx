@@ -465,6 +465,10 @@ const PlansModal = ({ onNavigate, onClose }) => {
     const handleChoose = (plan) => { if (plan === 'free') { onClose(); onNavigate('sell'); } else { setCheckoutPlan(plan); } };
     const handleFinish = (e) => { e.preventDefault(); onClose(); onNavigate('sell'); };
 
+    const handleOverlayClick = (e) => {
+        if (e.target === e.currentTarget) onClose();
+    };
+
     const BillingToggle = ({ value, onChange }) => (
         <div className="flex bg-slate-100 rounded-lg p-1 mb-4 text-xs font-bold">
             <button onClick={() => onChange('mensal')} className={`flex-1 py-1.5 rounded-md transition-all ${value === 'mensal' ? 'bg-white shadow text-slate-800' : 'text-slate-500'}`}>Mensal</button>
@@ -483,8 +487,11 @@ const PlansModal = ({ onNavigate, onClose }) => {
         const color = checkoutPlan === 'basico' ? 'emerald' : 'yellow';
 
         return (
-            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in duration-300 overflow-y-auto">
-                <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-8 relative animate-in zoom-in-95 duration-300 my-4">
+            <div 
+                className="fixed inset-0 z-[200] flex items-start sm:items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in duration-300 overflow-y-auto py-10"
+                onClick={handleOverlayClick}
+            >
+                <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-6 sm:p-8 relative animate-in zoom-in-95 duration-300 my-auto">
                     <button onClick={() => setCheckoutPlan(null)} className="absolute top-4 left-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 transition-colors"><ChevronRight className="w-5 h-5 rotate-180" /></button>
                     <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 transition-colors"><X className="w-5 h-5" /></button>
 
@@ -540,8 +547,11 @@ const PlansModal = ({ onNavigate, onClose }) => {
     }
 
     return (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in duration-300 overflow-y-auto">
-            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl p-8 relative animate-in zoom-in-95 duration-300 my-4">
+        <div 
+            className="fixed inset-0 z-[200] flex items-start sm:items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in duration-300 overflow-y-auto py-10"
+            onClick={handleOverlayClick}
+        >
+            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl p-6 sm:p-8 relative animate-in zoom-in-95 duration-300 my-auto">
                 <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 transition-colors"><X className="w-5 h-5" /></button>
                 <h2 className="text-3xl font-black text-slate-800 text-center mb-2">Escolha seu Plano</h2>
                 <p className="text-slate-500 text-center mb-8">Comece grátis ou escolha o plano ideal para o seu negócio.</p>
