@@ -924,24 +924,6 @@ const Register = ({ onNavigate, onLogin, onRegisterAuth }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (name.trim() && email.trim() && password.trim() && document.trim()) {
-            setIsLoading(true);
-            try {
-                // Chama o servidor do Vite (Plugin NodeMailer) para envio em segundo plano
-                const res = await fetch('/api/send-email', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: name.trim(), email: email.trim() })
-                });
-                
-                const data = await res.json();
-                if (!data.success) {
-                    console.error("Falha ao enviar email pelo servidor:", data.error);
-                }
-            } catch (error) {
-                console.error("Erro ao comunicar com o servidor de emails", error);
-            }
-            setIsLoading(false);
-
             if (onRegisterAuth) {
                 onRegisterAuth({
                     name: name.trim(),
@@ -1093,11 +1075,10 @@ const Register = ({ onNavigate, onLogin, onRegisterAuth }) => {
                                 console.log('Google Auth Success:', credentialResponse);
                                 try {
                                     const payload = credentialResponse.credential.split('.')[1];
-                                    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
                                     const decoded = JSON.parse(atob(base64));
-                                    onLogin(decoded.name || 'Usuário Google', true);
+                                    onLogin(decoded, true);
                                 } catch (e) {
-                                    onLogin('Usuário Google', true);
+                                    onLogin({ name: 'Usuário Google', email: 'google-user@conecta.ai' }, true);
                                 }
                             }}
                             onError={() => {
@@ -3231,18 +3212,36 @@ function AppContent() {
         localStorage.setItem('conectaai_users', JSON.stringify(usersDB));
     }, [usersDB]);
 
-    const handleLogin = (nameOrUser, isRegistration = false) => {
+    const handleLogin = async (nameOrUser, isRegistration = false) => {
+        let finalName = '';
+        let finalEmail = '';
+
         if (typeof nameOrUser === 'string') {
-            setUserName(nameOrUser);
-            setCurrentUserEmail('teste@experimental.com');
+            finalName = nameOrUser;
+            finalEmail = 'teste@experimental.com';
         } else {
-            setUserName(nameOrUser.name);
-            setCurrentUserEmail(nameOrUser.email);
+            finalName = nameOrUser.name || nameOrUser.given_name || 'Usuário';
+            finalEmail = nameOrUser.email;
         }
+
+        setUserName(finalName);
+        setCurrentUserEmail(finalEmail);
         setIsLoggedIn(true);
 
         if (isRegistration) {
             setShowSalesSim(true);
+            // DISPARO AUTOMÁTICO DE EMAIL DE BOAS-VINDAS
+            try {
+                fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: finalName, email: finalEmail })
+                }).then(res => res.json()).then(data => {
+                    if (!data.success) console.error("Erro API Email:", data.error);
+                });
+            } catch (err) {
+                console.error("Falha ao chamar API de e-mail:", err);
+            }
         }
 
         // Se o usuário tinha intenção de ir para uma página específica, vá para ela
