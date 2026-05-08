@@ -31,7 +31,7 @@ export default async function handler(req, res) {
             <img src="https://conec-tai.vercel.app/logo.png" alt="ConecTAÍ Logo" style="max-height: 80px; width: auto;" />
           </div>
           
-          <h1 style="color: #1d4ed8; text-align: center; font-size: 24px; margin-bottom: 20px;">Olá, \${name}! Bem-vindo ao ConecTAÍ 🚀</h1>
+          <h1 style="color: #1d4ed8; text-align: center; font-size: 24px; margin-bottom: 20px;">Olá, ${name}! Bem-vindo ao ConecTAÍ 🚀</h1>
           
           <p style="color: #475569; font-size: 16px; line-height: 1.6; margin-bottom: 15px;">
             É um prazer ter você conosco! O <strong>ConecTAÍ</strong> é a sua plataforma definitiva que conecta clientes diretamente aos melhores vendedores e prestadores de serviços, criando um ambiente seguro e dinâmico para negócios.
