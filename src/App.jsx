@@ -3603,17 +3603,8 @@ return (
                                 </div>
                             )}
                         </div>
-                                    Finalizar Compra <ChevronRight className="w-5 h-5 ml-1" />
-                                </button>
-                                <button onClick={() => setIsCartDrawerOpen(false)}
-                                    className="w-full bg-white border border-slate-200 text-slate-600 font-bold py-3 rounded-xl hover:bg-slate-50 transition-all text-sm">
-                                    Continuar Comprando
-                                </button>
-                            </div>
-                        )}
                     </div>
-                </div>
-            )}
+                )}
 
             {/* BOTÃO FLUTUANTE DE ATENDIMENTO com Eye-Tracking */}
             <AvatarSupporte onNavigate={setActiveView} />
