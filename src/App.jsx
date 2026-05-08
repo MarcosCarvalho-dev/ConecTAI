@@ -616,12 +616,13 @@ const SideNavbar = ({ activeView, onNavigate, isLoggedIn, isOpen, onToggle, cart
 
     return (
         <aside
-            className={`fixed left-0 z-40 flex bg-white/95 backdrop-blur-md shadow-xl transition-all duration-300 ease-in-out 
-            bottom-0 w-full h-16 flex-row border-t border-slate-200 justify-around items-center px-2
-            sm:top-0 sm:h-full sm:flex-col sm:border-r sm:border-t-0 sm:justify-start sm:px-0
+            className={`fixed left-0 z-[100] flex bg-white/95 backdrop-blur-md shadow-[0_-4px_20px_rgba(0,0,0,0.05)] transition-all duration-300 ease-in-out 
+            bottom-0 w-full h-[calc(4rem+env(safe-area-inset-bottom))] pb-[env(safe-area-inset-bottom)] flex-row border-t border-slate-200 justify-around items-center px-1
+            sm:top-0 sm:h-full sm:flex-col sm:border-r sm:border-t-0 sm:justify-start sm:px-0 sm:pb-0 sm:shadow-xl
             ${expanded ? 'sm:w-56' : 'sm:w-16'}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            style={{ WebkitTransform: 'translateZ(0)' }}
         >
             {/* Espaço reservado para alinhar com o Header (h-20) */}
             <div className="hidden sm:block h-20 flex-shrink-0"></div>
@@ -644,11 +645,7 @@ const SideNavbar = ({ activeView, onNavigate, isLoggedIn, isOpen, onToggle, cart
                     </button>
                 ))}
             </nav>
-            {expanded && (
-                <div className="p-3 border-t border-slate-100 animate-in fade-in duration-200">
-                    <div className="text-center text-xs text-slate-400 font-semibold">Conec<span className="text-blue-700">TAÍ</span></div>
-                </div>
-            )}
+            {/* The company name was removed from the sidebar to save space on mobile */}
         </aside>
     );
 };
@@ -3345,35 +3342,35 @@ function AppContent() {
             />
 
             {/* CABEÇALHO — Conectado à Sidebar */}
-            <nav className="bg-white/80 backdrop-blur-md border-b border-white/50 sticky top-0 z-50 w-full">
-                <div className="w-full h-20 flex items-center justify-between pr-6">
+            <nav className="bg-white/80 backdrop-blur-md border-b border-white/50 sticky top-0 z-50 w-full overflow-x-hidden">
+                <div className="w-full h-20 flex items-center justify-between pr-2 sm:pr-6">
 
                     {/* LADO ESQUERDO: vértice logo + nav */}
                     <div className="flex items-center h-full">
                         {/* LOGO — ocupa exatamente o mesmo espaço da sidebar (w-16 = 64px) */}
                         <div
-                            className="w-16 h-full flex items-center justify-center flex-shrink-0 cursor-pointer border-r border-slate-100"
+                            className="w-12 sm:w-16 h-full flex items-center justify-center flex-shrink-0 cursor-pointer border-r border-slate-100"
                             onClick={() => setActiveView('home')}
                             title="ConecTAÍ — Início"
                         >
-                            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-700 to-emerald-500 flex items-center justify-center shadow-md">
-                                <span className="text-white font-black text-sm tracking-tighter">CA</span>
+                            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-br from-blue-700 to-emerald-500 flex items-center justify-center shadow-md">
+                                <span className="text-white font-black text-xs sm:text-sm tracking-tighter">CA</span>
                             </div>
                         </div>
 
                         {/* NOME DA MARCA */}
                         <span
-                            className="text-xl font-black text-slate-800 tracking-tight hidden sm:block ml-4 mr-8 cursor-pointer"
+                            className="text-xl font-black text-slate-800 tracking-tight hidden lg:block ml-4 mr-8 cursor-pointer"
                             onClick={() => setActiveView('home')}
                         >
                             Conec<span className="text-blue-700">TAÍ</span>
                         </span>
 
                         {/* NAV LINKS */}
-                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-2 sm:gap-6 pl-2 sm:pl-4 lg:pl-0">
                             <button
                                 onClick={() => setActiveView('home')}
-                                className={`font-semibold text-sm transition-colors ${activeView === 'home' ? 'text-blue-700' : 'text-slate-500 hover:text-slate-900'}`}
+                                className={`font-semibold text-xs sm:text-sm transition-colors hidden sm:block ${activeView === 'home' ? 'text-blue-700' : 'text-slate-500 hover:text-slate-900'}`}
                             >
                                 Início
                             </button>
@@ -3382,7 +3379,7 @@ function AppContent() {
                             <div className="relative" onMouseEnter={() => setIsMarketplaceMenuOpen(true)} onMouseLeave={() => setIsMarketplaceMenuOpen(false)}>
                                 <button
                                     onClick={() => { setMarketplaceMode('todos'); setActiveView('marketplace'); }}
-                                    className={`flex items-center gap-1.5 font-bold text-base px-4 py-2 rounded-xl transition-all ${activeView === 'marketplace' ? 'bg-blue-700 text-white shadow-lg shadow-blue-700/30' : 'text-slate-700 hover:bg-blue-50 hover:text-blue-700 border border-slate-200 bg-white'}`}
+                                    className={`flex items-center gap-1 sm:gap-1.5 font-bold text-xs sm:text-base px-2 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl transition-all ${activeView === 'marketplace' ? 'bg-blue-700 text-white shadow-lg shadow-blue-700/30' : 'text-slate-700 hover:bg-blue-50 hover:text-blue-700 border border-slate-200 bg-white'}`}
                                 >
                                     <Store className="w-4 h-4" />
                                     Marketplace
@@ -3419,28 +3416,28 @@ function AppContent() {
                     </div>
 
                     {/* LADO DIREITO: área do usuário */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3">
                         {/* DARK MODE TOGGLE */}
                         <button
                             onClick={() => setIsDarkMode(d => !d)}
-                            className="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 border border-slate-200 shadow-sm transition-all"
+                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 border border-slate-200 shadow-sm transition-all flex-shrink-0"
                             title={isDarkMode ? 'Modo Claro' : 'Modo Escuro'}
                         >
-                            {isDarkMode ? <span className="text-base">☀️</span> : <span className="text-base">🌙</span>}
+                            {isDarkMode ? <span className="text-sm sm:text-base">☀️</span> : <span className="text-sm sm:text-base">🌙</span>}
                         </button>
                         {isLoggedIn ? (
                             <>
-                                <button onClick={() => setIsCartDrawerOpen(true)} className="relative w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 hover:text-blue-700 border border-slate-200 shadow-sm transition-all" title="Ver Carrinho">
-                                    <ShoppingCart className="w-5 h-5" />
+                                <button onClick={() => setIsCartDrawerOpen(true)} className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 hover:text-blue-700 border border-slate-200 shadow-sm transition-all flex-shrink-0" title="Ver Carrinho">
+                                    <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
                                     {cartItems.length > 0 && (
-                                        <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                                        <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[9px] sm:text-[10px] font-black w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
                                             {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
                                         </span>
                                     )}
                                 </button>
                                 <div className="relative">
                                     <div
-                                        className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-lg border-2 border-blue-200 shadow-sm cursor-pointer hover:bg-blue-200 transition-colors"
+                                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-sm sm:text-lg border-2 border-blue-200 shadow-sm cursor-pointer hover:bg-blue-200 transition-colors flex-shrink-0"
                                         title={userName}
                                         onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                                     >
@@ -3475,7 +3472,7 @@ function AppContent() {
                         ) : (
                             <>
                                 <button onClick={() => setActiveView('login')} className="text-slate-600 hover:text-blue-700 font-semibold text-sm transition-colors hidden sm:block">Entrar</button>
-                                <button onClick={() => setActiveView('register')} className="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-lg text-sm font-bold transition-colors shadow-md">Criar Conta</button>
+                                <button onClick={() => setActiveView('register')} className="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-lg text-xs sm:text-sm font-bold transition-colors shadow-md whitespace-nowrap flex-shrink-0">Criar Conta</button>
                             </>
                         )}
                     </div>
@@ -3505,6 +3502,11 @@ function AppContent() {
                 {activeView === 'register' && <Register onNavigate={setActiveView} onLogin={handleLogin} onRegisterAuth={handleRegisterAuth} />}
                 {activeView === 'cart' && <CartView cart={cartItems} setCart={setCartItems} onNavigate={setActiveView} updateQuantity={handleUpdateCartQuantity} clearCart={clearCart} />}
                 {activeView === 'contact' && <ContactView />}
+
+                {/* FOOTER EM TODAS AS PÁGINAS */}
+                <div className="w-full text-center py-6 mt-8">
+                    <p className="text-xs text-slate-400 font-semibold tracking-wide">Conec<span className="text-blue-700">TAÍ</span> © {new Date().getFullYear()}</p>
+                </div>
             </main>
 
             {/* SOCIAL PROOF FEED */}
