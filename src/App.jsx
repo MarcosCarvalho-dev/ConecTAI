@@ -380,7 +380,7 @@ const SocialProofFeed = ({ notifications, active }) => {
     if (!current || !active) return null;
 
     return (
-        <div className={`fixed bottom-24 sm:bottom-6 left-6 z-[60] pointer-events-none ${animClass}`}>
+        <div className={`fixed bottom-24 sm:bottom-6 left-4 sm:left-20 z-[60] pointer-events-none ${animClass}`}>
             <div className="flex items-center gap-3 p-4 bg-white/97 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.15)] border border-slate-100 rounded-2xl w-80">
                 <div className="w-10 h-10 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-lg flex-shrink-0">
                     {current.icon}
@@ -3342,7 +3342,7 @@ function AppContent() {
             />
 
             {/* CABEÇALHO — Conectado à Sidebar */}
-            <nav className="bg-white/80 backdrop-blur-md border-b border-white/50 sticky top-0 z-50 w-full overflow-x-hidden">
+            <nav className="bg-white/80 backdrop-blur-md border-b border-white/50 sticky top-0 z-[110] w-full">
                 <div className="w-full h-20 flex items-center justify-between pr-2 sm:pr-6">
 
                     {/* LADO ESQUERDO: vértice logo + nav */}
@@ -3387,7 +3387,8 @@ function AppContent() {
                                 </button>
 
                                 {isMarketplaceMenuOpen && (
-                                    <div className="absolute top-full left-0 mt-1 w-52 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                                    <div className="absolute top-full left-0 mt-0 pt-2 w-52 z-[100]">
+                                        <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
                                         <button
                                             onClick={() => { setMarketplaceMode('todos'); setActiveView('marketplace'); setIsMarketplaceMenuOpen(false); }}
                                             className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors text-left"
@@ -3410,7 +3411,8 @@ function AppContent() {
                                             <div><p className="font-bold text-slate-800 text-sm">Serviços</p><p className="text-xs text-slate-500">Profissionais especializados</p></div>
                                         </button>
                                     </div>
-                                )}
+                                </div>
+                            )}
                             </div>
                         </div>
                     </div>
