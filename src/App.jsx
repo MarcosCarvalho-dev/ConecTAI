@@ -1075,10 +1075,16 @@ const Register = ({ onNavigate, onLogin, onRegisterAuth }) => {
                                 console.log('Google Auth Success:', credentialResponse);
                                 try {
                                     const payload = credentialResponse.credential.split('.')[1];
+                                    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
                                     const decoded = JSON.parse(atob(base64));
-                                    onLogin(decoded, true);
+                                    
+                                    // Se o usuário digitou um nome no formulário, use ele. Senão, use o nome do Google.
+                                    const finalName = name.trim() || decoded.name || decoded.given_name || 'Usuário Google';
+                                    
+                                    onLogin({ name: finalName, email: decoded.email }, true);
                                 } catch (e) {
-                                    onLogin({ name: 'Usuário Google', email: 'google-user@conecta.ai' }, true);
+                                    console.error('Erro ao decodificar token do Google:', e);
+                                    onLogin({ name: name.trim() || 'Usuário Google', email: 'email_desconhecido@conecta.ai' }, true);
                                 }
                             }}
                             onError={() => {
