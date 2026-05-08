@@ -248,12 +248,12 @@
 }
 
 /* Navbar specific override */
-.dark nav.bg-white\\/80, .dark aside.bg-white\\/95 {
+.dark nav.bg-white\/80, .dark aside.bg-white\/95 {
   background-color: rgba(6, 11, 25, 0.85) !important;
   border-color: rgba(255, 255, 255, 0.05) !important;
 }
 
-.dark .glass-card, .dark .bg-white\\/90 {
+.dark .glass-card, .dark .bg-white\/90 {
   background-color: rgba(13, 21, 39, 0.8) !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
