@@ -380,7 +380,7 @@ const SocialProofFeed = ({ notifications, active }) => {
     if (!current || !active) return null;
 
     return (
-        <div className={`fixed bottom-24 sm:bottom-6 left-6 z-[60] pointer-events-none ${animClass}`}>
+        <div className={`fixed bottom-6 left-6 z-[60] pointer-events-none ${animClass}`}>
             <div className="flex items-center gap-3 p-4 bg-white/97 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.15)] border border-slate-100 rounded-2xl w-80">
                 <div className="w-10 h-10 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-lg flex-shrink-0">
                     {current.icon}
@@ -539,8 +539,8 @@ const PlansModal = ({ onNavigate, onClose }) => {
     }
 
     return (
-        <div className="fixed inset-0 z-[200] flex items-start md:items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in duration-300 overflow-y-auto pt-8 md:pt-4">
-            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl p-8 relative animate-in zoom-in-95 duration-300 my-4 md:my-auto">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in duration-300 overflow-y-auto">
+            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl p-8 relative animate-in zoom-in-95 duration-300 my-4">
                 <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 transition-colors"><X className="w-5 h-5" /></button>
                 <h2 className="text-3xl font-black text-slate-800 text-center mb-2">Escolha seu Plano</h2>
                 <p className="text-slate-500 text-center mb-8">Comece grátis ou escolha o plano ideal para o seu negócio.</p>
@@ -616,7 +616,7 @@ const SideNavbar = ({ activeView, onNavigate, isLoggedIn, isOpen, onToggle, cart
 
     return (
         <aside
-            className={`hidden sm:flex fixed left-0 top-0 h-full z-40 flex-col bg-white/95 backdrop-blur-md border-r border-slate-200 shadow-xl transition-all duration-300 ease-in-out ${expanded ? 'w-56' : 'w-16'}`}
+            className={`fixed left-0 top-0 h-full z-40 flex flex-col bg-white/95 backdrop-blur-md border-r border-slate-200 shadow-xl transition-all duration-300 ease-in-out ${expanded ? 'w-56' : 'w-16'}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
@@ -649,36 +649,6 @@ const SideNavbar = ({ activeView, onNavigate, isLoggedIn, isOpen, onToggle, cart
         </aside>
     );
 };
-
-// ========= NAVEGAÇÃO INFERIOR MOBILE =========
-const BottomNavbar = ({ activeView, onNavigate, isLoggedIn, cartCount }) => {
-    const navItems = [
-        { view: 'home', icon: HomeIcon, label: 'Início' },
-        { view: 'marketplace', icon: Store, label: 'Mercado' },
-        { view: 'relatoriosFinanceiros', icon: FileBarChart, label: 'Painel' },
-        { view: 'cart', icon: ShoppingCart, label: 'Carrinho', badge: cartCount },
-    ];
-
-    return (
-        <nav className="sm:hidden fixed bottom-0 left-0 w-full z-50 bg-white/95 backdrop-blur-lg border-t border-slate-200 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
-            <div className="flex items-center justify-around px-2 py-2">
-                {navItems.map(({ view, icon: Icon, label, badge }) => {
-                    const isActive = activeView === view || (view === 'marketplace' && activeView === 'marketplace');
-                    return (
-                        <button key={view} onClick={() => onNavigate(view)} className="relative flex flex-col items-center p-2 w-16">
-                            <div className={`relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 ${isActive ? 'bg-blue-100 text-blue-700' : 'text-slate-500 hover:text-slate-800'}`}>
-                                <Icon className={`w-5 h-5 ${isActive ? 'scale-110' : ''} transition-transform`} />
-                                {badge > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-white">{badge}</span>}
-                            </div>
-                            <span className={`text-[10px] font-bold mt-1 transition-colors ${isActive ? 'text-blue-700' : 'text-slate-500'}`}>{label}</span>
-                        </button>
-                    );
-                })}
-            </div>
-        </nav>
-    );
-};
-
 
 // ========= COMPONENTE: HERO 3D INTERATIVO =========
 const Hero3D = () => {
@@ -864,7 +834,7 @@ const Login = ({ onNavigate, onLogin, onLoginAuth }) => {
                                 required
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
-                                placeholder="Ex: contato@email.com, CPF ou +55..."
+                                placeholder="Ex: contato@email.com, 000.000.000-00 ou +55..."
                                 className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all bg-white/50"
                             />
                         </div>
@@ -890,33 +860,34 @@ const Login = ({ onNavigate, onLogin, onLoginAuth }) => {
                     <button type="submit" className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition-all mt-6 cursor-pointer">
                         Entrar e Continuar
                     </button>
+                    
+                    <div className="relative mt-6">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-slate-200"></div>
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="px-2 bg-white text-slate-500 font-semibold">Ou continuar com</span>
+                        </div>
+                    </div>
+                    
+                    <div className="mt-4 flex justify-center w-full">
+                        <GoogleLogin
+                            onSuccess={credentialResponse => {
+                                console.log('Google Auth Success:', credentialResponse);
+                                onLogin('Usuário Google');
+                            }}
+                            onError={() => {
+                                console.log('Login Failed');
+                                setErrorMsg('Falha ao autenticar com o Google.');
+                            }}
+                            useOneTap
+                            shape="rectangular"
+                            theme="outline"
+                            text="continue_with"
+                            size="large"
+                        />
+                    </div>
                 </form>
-
-                <div className="mt-6 w-full flex items-center gap-4 z-10">
-                    <div className="flex-1 h-px bg-slate-200"></div>
-                    <span className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Ou</span>
-                    <div className="flex-1 h-px bg-slate-200"></div>
-                </div>
-
-                <div className="mt-6 w-full flex justify-center z-10">
-                    <GoogleLogin
-                        onSuccess={credentialResponse => {
-                            console.log('Login Google Sucesso:', credentialResponse);
-                            alert("Sucesso! Em um backend real o token seria validado e a sessão iniciada.");
-                            // Aqui integraria com o backend para validar credentialResponse.credential
-                            onLogin({ name: 'Usuário Google', email: 'google@gmail.com' });
-                        }}
-                        onError={() => {
-                            console.log('Login Failed');
-                            alert('Falha ao tentar conectar com o Google.');
-                        }}
-                        theme="outline"
-                        size="large"
-                        text="signin_with"
-                        shape="pill"
-                        width="300"
-                    />
-                </div>
 
                 <p className="mt-6 text-sm text-slate-600 z-10">
                     Ainda não tem conta? <button type="button" onClick={() => onNavigate('register')} className="text-blue-700 font-bold hover:underline focus:outline-none">Criar Conta</button>
@@ -942,12 +913,6 @@ const Register = ({ onNavigate, onLogin, onRegisterAuth }) => {
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const handlePhoneChange = (e) => {
-        let val = e.target.value;
-        if (!val.startsWith('+55 ')) val = '+55 ';
-        setPhone(val);
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (name.trim() && email.trim() && password.trim() && document.trim()) {
@@ -969,19 +934,17 @@ const Register = ({ onNavigate, onLogin, onRegisterAuth }) => {
             }
             setIsLoading(false);
 
-            const finalPhone = phone.trim() === '+55' ? '' : phone.trim();
-
             if (onRegisterAuth) {
                 onRegisterAuth({
                     name: name.trim(),
                     email: email.trim(),
-                    phone: finalPhone,
                     document: document.trim(),
+                    phone: phone.trim(),
                     password: password.trim(),
                     accountType
                 });
             } else {
-                onLogin({ name: name.trim(), email: email.trim(), phone: finalPhone }, true);
+                onLogin({ name: name.trim(), email: email.trim() }, true);
             }
         }
     };
@@ -1064,21 +1027,6 @@ const Register = ({ onNavigate, onLogin, onRegisterAuth }) => {
                             />
                         </div>
                     </div>
-                    <div className="space-y-1">
-                        <label className="text-sm font-semibold text-slate-700">Celular (Opcional)</label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Smartphone className="h-5 w-5 text-slate-400" />
-                            </div>
-                            <input
-                                type="tel"
-                                value={phone}
-                                onChange={handlePhoneChange}
-                                placeholder="Ex: +55 11 99999-9999"
-                                className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all bg-white/50"
-                            />
-                        </div>
-                    </div>
 
                     <div className="space-y-1">
                         <label className="text-sm font-semibold text-slate-700">Crie sua Senha (Obrigatório)</label>
@@ -1097,37 +1045,56 @@ const Register = ({ onNavigate, onLogin, onRegisterAuth }) => {
                         </div>
                     </div>
 
+                    <div className="space-y-1">
+                        <label className="text-sm font-semibold text-slate-700">Celular (Opcional)</label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span className="text-slate-400 font-bold">BR</span>
+                            </div>
+                            <input
+                                type="tel"
+                                value={phone}
+                                onChange={(e) => {
+                                    let val = e.target.value;
+                                    if (!val.startsWith('+55 ')) { val = '+55 ' + val.replace('+55 ', ''); }
+                                    setPhone(val);
+                                }}
+                                placeholder="+55 (11) 99999-9999"
+                                className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all bg-white/50"
+                            />
+                        </div>
+                    </div>
+
                     <button type="submit" disabled={isLoading} className={`w-full text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition-all mt-6 cursor-pointer flex items-center justify-center ${isLoading ? 'bg-slate-700' : 'bg-slate-900 hover:bg-slate-800'}`}>
                         {isLoading ? <RefreshCw className="w-5 h-5 mr-2 animate-spin" /> : null}
                         {isLoading ? 'Criando e Enviando Email...' : 'Criar Conta e Continuar'}
                     </button>
+                    
+                    <div className="relative mt-6">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-slate-200"></div>
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="px-2 bg-white text-slate-500 font-semibold">Ou criar com</span>
+                        </div>
+                    </div>
+                    
+                    <div className="mt-4 flex justify-center w-full">
+                        <GoogleLogin
+                            onSuccess={credentialResponse => {
+                                console.log('Google Auth Success:', credentialResponse);
+                                onLogin('Usuário Google', true);
+                            }}
+                            onError={() => {
+                                console.log('Login Failed');
+                            }}
+                            shape="rectangular"
+                            theme="outline"
+                            text="signup_with"
+                            size="large"
+                        />
+                    </div>
                 </form>
-
-                <div className="mt-6 w-full flex items-center gap-4 z-10">
-                    <div className="flex-1 h-px bg-slate-200"></div>
-                    <span className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Ou</span>
-                    <div className="flex-1 h-px bg-slate-200"></div>
-                </div>
-
-                <div className="mt-6 w-full flex justify-center z-10">
-                    <GoogleLogin
-                        onSuccess={credentialResponse => {
-                            console.log('Login Google Sucesso:', credentialResponse);
-                            alert("Sucesso! Em um backend real o token seria validado para criar a conta ConecTAÍ.");
-                            // Aqui integraria com o backend enviando credentialResponse.credential
-                            onLogin({ name: 'Usuário Google', email: 'google@gmail.com', phone: '' }, true);
-                        }}
-                        onError={() => {
-                            console.log('Login Failed');
-                            alert('Falha ao tentar conectar com o Google.');
-                        }}
-                        theme="outline"
-                        size="large"
-                        text="signup_with"
-                        shape="pill"
-                        width="300"
-                    />
-                </div>
 
                 <p className="mt-6 text-sm text-slate-600 z-10">
                     Já tem uma conta? <button type="button" onClick={() => onNavigate('login')} className="text-blue-700 font-bold hover:underline focus:outline-none">Fazer login</button>
@@ -3182,6 +3149,14 @@ const SellView = ({ isLoggedIn, userName, onNavigate, onLogin, onAddListing, onU
 };
 // --- APP PRINCIPAL ---
 export default function App() {
+    return (
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+            <AppContent />
+        </GoogleOAuthProvider>
+    );
+}
+
+function AppContent() {
     const [activeView, setActiveView] = useState('home');
     const [pendingView, setPendingView] = useState(null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -3378,7 +3353,7 @@ export default function App() {
                         </span>
 
                         {/* NAV LINKS */}
-                        <div className="hidden sm:flex items-center gap-6">
+                        <div className="flex items-center gap-6">
                             <button
                                 onClick={() => setActiveView('home')}
                                 className={`font-semibold text-sm transition-colors ${activeView === 'home' ? 'text-blue-700' : 'text-slate-500 hover:text-slate-900'}`}
@@ -3438,7 +3413,7 @@ export default function App() {
                         </button>
                         {isLoggedIn ? (
                             <>
-                                <button onClick={() => setIsCartDrawerOpen(true)} className="relative hidden sm:flex w-10 h-10 rounded-full bg-slate-100 text-slate-600 items-center justify-center hover:bg-slate-200 hover:text-blue-700 border border-slate-200 shadow-sm transition-all" title="Ver Carrinho">
+                                <button onClick={() => setIsCartDrawerOpen(true)} className="relative w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 hover:text-blue-700 border border-slate-200 shadow-sm transition-all" title="Ver Carrinho">
                                     <ShoppingCart className="w-5 h-5" />
                                     {cartItems.length > 0 && (
                                         <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
@@ -3490,121 +3465,108 @@ export default function App() {
                 </div>
             </nav>
 
-            {/* NAVEGAÇÃO MOBILE (BOTTOM NAV) */}
-            <BottomNavbar activeView={activeView} onNavigate={setActiveView} isLoggedIn={isLoggedIn} cartCount={cartItems.reduce((acc, i) => acc + i.quantity, 0)} />
-
             {/* ÁREA DE CONTEÚDO PRINCIPAL */}
-            <main className="py-8 flex-1 pl-0 sm:pl-16 pb-24 sm:pb-8">
-return (
-        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-            <div className="min-h-screen font-sans relative text-slate-900 pb-20">
-                {/* Fundo Desfocado */}
-                <div
-                    className="fixed inset-0 z-[-1] bg-cover bg-center bg-no-repeat"
-                    style={{
-                        backgroundImage: "url('https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80')",
-                        opacity: isDarkMode ? 0.05 : 0.4,
-                        filter: "blur(40px) saturate(150%)"
-                    }}
-                ></div>
-                <div className="fixed inset-0 z-[-1] bg-slate-100/50"></div>
+            <main className="py-8 flex-1 pl-16">
+                {activeView === 'home' && <Home onNavigate={setActiveView} isLoggedIn={isLoggedIn} />}
+                {activeView === 'marketplace' && <Marketplace items={marketplaceItems} isLoggedIn={isLoggedIn} onNavigate={setActiveView} onLogin={handleLogin} addToCart={handleAddToCart} mode={marketplaceMode} />}
 
-                <TopHeader
-                    isLoggedIn={isLoggedIn}
-                    onNavigate={handleNavigate}
-                    activeView={activeView}
-                    cartItems={cartItems}
-                    setIsCartDrawerOpen={setIsCartDrawerOpen}
-                    userName={userName}
-                    onLogout={() => { setIsLoggedIn(false); setUserName(''); }}
-                />
+                {activeView === 'relatoriosFinanceiros' && (
+                    !isLoggedIn
+                        ? <AuthBlockView onNavigate={setActiveView} onLogin={handleLogin} intendedView="relatoriosFinanceiros" setPendingView={setPendingView} />
+                        : <RelatoriosFinanceiros userName={userName} />
+                )}
 
-                <main className="pt-20 pl-0 sm:pl-16 pb-24 sm:pb-0 transition-all duration-300">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6">
-                        {renderContent()}
-                    </div>
-                </main>
+                {activeView === 'ranking' && (
+                    !isLoggedIn
+                        ? <AuthBlockView onNavigate={setActiveView} onLogin={handleLogin} intendedView="ranking" setPendingView={setPendingView} />
+                        : <Ranking userName={userName} />
+                )}
 
-                <SideNavbar
-                    activeView={activeView}
-                    onNavigate={handleNavigate}
-                    cartCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)}
-                />
+                {activeView === 'consultoria' && <Consultoria />}
+                {activeView === 'sell' && <SellView isLoggedIn={isLoggedIn} userName={userName} onNavigate={setActiveView} onLogin={handleLogin} onAddListing={handleAddListing} onUpdateListing={handleUpdateListing} onDeleteListing={handleDeleteListing} userItems={marketplaceItems.filter(item => item.sellerName === userName)} />}
+                {activeView === 'login' && <Login onNavigate={setActiveView} onLogin={handleLogin} onLoginAuth={handleLoginAuth} />}
+                {activeView === 'register' && <Register onNavigate={setActiveView} onLogin={handleLogin} onRegisterAuth={handleRegisterAuth} />}
+                {activeView === 'cart' && <CartView cart={cartItems} setCart={setCartItems} onNavigate={setActiveView} updateQuantity={handleUpdateCartQuantity} clearCart={clearCart} />}
+                {activeView === 'contact' && <ContactView />}
+            </main>
 
-                <BottomNavbar
-                    activeView={activeView}
-                    onNavigate={handleNavigate}
-                    cartCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)}
-                />
+            {/* SOCIAL PROOF FEED */}
+            <SocialProofFeed active={true} />
 
-                {showSalesSim && <SalesSimulationPopups simulations={MOCK_SALES_SIMULATIONS} />}
-
-                {/* --- DRAWER DO CARRINHO --- */}
-                {isCartDrawerOpen && (
-                    <div className="fixed inset-0 z-[150] flex justify-end" onClick={(e) => { if (e.target === e.currentTarget) setIsCartDrawerOpen(false); }}>
-                        <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={() => setIsCartDrawerOpen(false)}></div>
-                        <div className="w-full max-w-md bg-white h-full relative z-10 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
-                            <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-white">
-                                <div className="flex items-center gap-3">
-                                    <ShoppingCart className="w-6 h-6 text-slate-800" />
-                                    <h2 className="text-xl font-black text-slate-800">Seu Carrinho</h2>
-                                </div>
-                                <button onClick={() => setIsCartDrawerOpen(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-                                    <X className="w-5 h-5 text-slate-500" />
-                                </button>
-                            </div>
-
-                            <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/50">
-                                {cartItems.length === 0 ? (
-                                    <div className="flex flex-col items-center justify-center h-full text-slate-400 space-y-4">
-                                        <ShoppingCart className="w-16 h-16 text-slate-200" />
-                                        <p>Seu carrinho está vazio</p>
-                                        <button onClick={() => { setIsCartDrawerOpen(false); setActiveView('marketplace'); }}
-                                            className="bg-blue-700 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-800 transition-colors">
-                                            Explorar
-                                        </button>
-                                    </div>
-                                ) : (
-                                    cartItems.map((item, idx) => (
-                                        <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
-                                            <img src={item.image} alt={item.title} className="w-16 h-16 object-cover rounded-lg flex-shrink-0" />
-                                            <div className="flex-1 min-w-0">
-                                                <p className="font-bold text-slate-800 text-sm line-clamp-2">{item.title}</p>
-                                                <p className="text-xs text-slate-500 mt-0.5">{item.sellerName}</p>
-                                                <p className="font-extrabold text-blue-800 text-sm mt-1">{formatPrice(parsePrice(item.price) * item.quantity)}</p>
-                                            </div>
-                                            <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-white">
-                                                <button onClick={() => handleUpdateCartQuantity(idx, -1)} className="px-2 py-1 text-slate-500 hover:bg-slate-100"><Minus className="w-3 h-3" /></button>
-                                                <span className="px-2 font-bold text-sm">{item.quantity}</span>
-                                                <button onClick={() => handleUpdateCartQuantity(idx, 1)} className="px-2 py-1 text-slate-500 hover:bg-slate-100"><Plus className="w-3 h-3" /></button>
-                                            </div>
-                                            <button onClick={() => setCartItems(prev => prev.filter((_, i) => i !== idx))} className="p-1 text-slate-400 hover:text-red-500 transition-colors">
-                                                <X className="w-4 h-4" />
-                                            </button>
-                                        </div>
-                                    ))
+            {/* CART DRAWER LATERAL */}
+            {isCartDrawerOpen && (
+                <div className="fixed inset-0 z-[150] flex justify-end" onClick={(e) => { if (e.target === e.currentTarget) setIsCartDrawerOpen(false); }}>
+                    <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={() => setIsCartDrawerOpen(false)}></div>
+                    <div className={`cart-drawer relative w-full max-w-md bg-white shadow-2xl flex flex-col h-full ${isCartDrawerOpen ? 'open' : 'closed'}`}>
+                        <div className="flex items-center justify-between p-6 border-b border-slate-200">
+                            <div className="flex items-center gap-3">
+                                <ShoppingCart className="w-6 h-6 text-blue-700" />
+                                <h2 className="text-xl font-black text-slate-800">Meu Carrinho</h2>
+                                {cartItems.length > 0 && (
+                                    <span className="bg-red-500 text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">
+                                        {cartItems.reduce((a, i) => a + i.quantity, 0)}
+                                    </span>
                                 )}
                             </div>
+                            <button onClick={() => setIsCartDrawerOpen(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                                <X className="w-5 h-5 text-slate-500" />
+                            </button>
+                        </div>
 
-                            {cartItems.length > 0 && (
-                                <div className="p-6 border-t border-slate-200 space-y-3">
-                                    <div className="flex justify-between text-sm font-semibold text-slate-600">
-                                        <span>Subtotal</span>
-                                        <span className="font-black text-slate-900 text-lg">{formatPrice(cartItems.reduce((sum, item) => sum + parsePrice(item.price) * item.quantity, 0))}</span>
+                        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                            {cartItems.length === 0 ? (
+                                <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                                    <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                                        <ShoppingCart className="w-8 h-8 text-slate-400" />
                                     </div>
-                                    <button onClick={() => { setIsCartDrawerOpen(false); setActiveView('cart'); }}
-                                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center shadow-lg">
-                                        Finalizar Compra <ChevronRight className="w-5 h-5 ml-1" />
-                                    </button>
-                                    <button onClick={() => setIsCartDrawerOpen(false)}
-                                        className="w-full bg-white border border-slate-200 text-slate-600 font-bold py-3 rounded-xl hover:bg-slate-50 transition-all text-sm">
-                                        Continuar Comprando
+                                    <h3 className="font-bold text-slate-700 mb-2">Carrinho vazio</h3>
+                                    <p className="text-sm text-slate-500 mb-6">Adicione produtos do marketplace</p>
+                                    <button onClick={() => { setIsCartDrawerOpen(false); setActiveView('marketplace'); }}
+                                        className="bg-blue-700 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-blue-800 transition-colors">
+                                        Explorar
                                     </button>
                                 </div>
+                            ) : (
+                                cartItems.map((item, idx) => (
+                                    <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                                        <img src={item.image} alt={item.title} className="w-16 h-16 object-cover rounded-lg flex-shrink-0" />
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-bold text-slate-800 text-sm line-clamp-2">{item.title}</p>
+                                            <p className="text-xs text-slate-500 mt-0.5">{item.sellerName}</p>
+                                            <p className="font-extrabold text-blue-800 text-sm mt-1">{formatPrice(parsePrice(item.price) * item.quantity)}</p>
+                                        </div>
+                                        <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-white">
+                                            <button onClick={() => handleUpdateCartQuantity(idx, -1)} className="px-2 py-1 text-slate-500 hover:bg-slate-100"><Minus className="w-3 h-3" /></button>
+                                            <span className="px-2 font-bold text-sm">{item.quantity}</span>
+                                            <button onClick={() => handleUpdateCartQuantity(idx, 1)} className="px-2 py-1 text-slate-500 hover:bg-slate-100"><Plus className="w-3 h-3" /></button>
+                                        </div>
+                                        <button onClick={() => setCartItems(prev => prev.filter((_, i) => i !== idx))} className="p-1 text-slate-400 hover:text-red-500 transition-colors">
+                                            <X className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                ))
                             )}
                         </div>
+
+                        {cartItems.length > 0 && (
+                            <div className="p-6 border-t border-slate-200 space-y-3">
+                                <div className="flex justify-between text-sm font-semibold text-slate-600">
+                                    <span>Subtotal</span>
+                                    <span className="font-black text-slate-900 text-lg">{formatPrice(cartItems.reduce((sum, item) => sum + parsePrice(item.price) * item.quantity, 0))}</span>
+                                </div>
+                                <button onClick={() => { setIsCartDrawerOpen(false); setActiveView('cart'); }}
+                                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center shadow-lg">
+                                    Finalizar Compra <ChevronRight className="w-5 h-5 ml-1" />
+                                </button>
+                                <button onClick={() => setIsCartDrawerOpen(false)}
+                                    className="w-full bg-white border border-slate-200 text-slate-600 font-bold py-3 rounded-xl hover:bg-slate-50 transition-all text-sm">
+                                    Continuar Comprando
+                                </button>
+                            </div>
+                        )}
                     </div>
-                )}
+                </div>
+            )}
 
             {/* BOTÃO FLUTUANTE DE ATENDIMENTO com Eye-Tracking */}
             <AvatarSupporte onNavigate={setActiveView} />
